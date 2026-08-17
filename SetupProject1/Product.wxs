@@ -2,7 +2,7 @@
   <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product Id="*" Name="SampleApp Setup" Language="1033" Version="1.0.0.0" Manufacturer="RemyStudent101580150"
         UpgradeCode="F65B3D37-8BED-45F4-ACAA-3ECC2EFF6BCF">                
-      <Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />      
+      <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />      
       <MediaTemplate EmbedCab="yes" />      
       <Directory Id="TARGETDIR" Name="SourceDir">      
         <Directory Id="ProgramFilesFolder">        
@@ -11,19 +11,31 @@
       </Directory>
       <DirectoryRef Id="INSTALLFOLDER">
         <Component Id="MainExecutable" Guid="*">
-          <File Id="SampleAppEXE" Source="$(var.ConsoleApp1.TargetDir)ConsoleApp1.exe" KeyPath="yes" />
+          <File Id="SampleAppEXE" Source="$(var.ConsoleAppOutputDir)ConsoleApp1.exe" KeyPath="yes" />
         </Component>
         <Component Id="MainDLL" Guid="*">
-          <File Id="SampleAppDLL" Source="$(var.ConsoleApp1.TargetDir)ConsoleApp1.dll" KeyPath="yes" />
+          <File Id="SampleAppDLL" Source="$(var.ConsoleAppOutputDir)ConsoleApp1.dll" KeyPath="yes" />
         </Component>
         <Component Id="RuntimeConfig" Guid="*">
-          <File Id="RuntimeConfig" Source="$(var.ConsoleApp1.TargetDir)ConsoleApp1.runtimeconfig.json" KeyPath="yes" />
+          <File Id="RuntimeConfig" Source="$(var.ConsoleAppOutputDir)ConsoleApp1.runtimeconfig.json" KeyPath="yes" />
+        </Component>
+        <Component Id="AppConfig" Guid="*">
+          <File Id="AppConfig" Source="$(var.ConsoleAppOutputDir)ConsoleApp1.deps.json" KeyPath="yes" />
+        </Component>
+        <Component Id="NewtonsoftJson" Guid="*">
+          <File Id="NewtonsoftJson" Source="$(var.ConsoleAppOutputDir)Newtonsoft.Json.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="Humanizer" Guid="*">
+          <File Id="Humanizer" Source="$(var.ConsoleAppOutputDir)Humanizer.dll" KeyPath="yes" />
         </Component>
       </DirectoryRef>
       <Feature Id="ProductFeature" Title="SampleAppSetup" Level="1">
         <ComponentRef Id="MainExecutable" />
         <ComponentRef Id="MainDLL" />
         <ComponentRef Id="RuntimeConfig" />
+        <ComponentRef Id="AppConfig" />
+        <ComponentRef Id="NewtonsoftJson" />
+        <ComponentRef Id="Humanizer" />
        </Feature>
     </Product>
   </Wix>
